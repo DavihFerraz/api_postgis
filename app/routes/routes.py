@@ -51,3 +51,18 @@ async def distancias(nome: str, db: AsyncSession = Depends(get_db)):
         dict(r._mapping) for r in rows
     ]
 
+
+@router.get("/locais", response_model=list[LocalOut])
+async def listar_locais(db: AsyncSession = Depends(get_db)):
+    query = text(
+        """
+        SELECT id, nome
+        FROM locais
+        """
+    )
+    result = await db.execute(query)
+    rows = result.fetchall()
+    return [
+        dict(r._mapping) for r in rows
+    ]
+

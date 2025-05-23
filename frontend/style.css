@@ -1,0 +1,85 @@
+ body {
+      font-family: Arial, sans-serif;
+      background-color: #f7f7f7;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      padding-top: 50px;
+    }
+
+    .container {
+      background-color: white;
+      padding: 30px;
+      border-radius: 10px;
+      width: 400px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    h2 {
+      text-align: center;
+      color: #333;
+    }
+
+    label {
+      display: block;
+      margin-top: 15px;
+      font-weight: bold;
+    }
+
+    input {
+      width: 100%;
+      padding: 10px;
+      margin-top: 5px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+    }
+
+    button {
+      margin-top: 20px;
+      width: 100%;
+      padding: 10px;
+      background-color: #0d6efd;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #0b5ed7;
+    }
+
+    #erro {
+      color: red;
+      margin-top: 10px;
+      text-align: center;
+    }
+
+    ul {
+      margin-top: 30px;
+      padding: 0;
+      list-style: none;
+    }
+
+    li {
+      background-color: #f0f0f0;
+      margin-bottom: 10px;
+      padding: 10px;
+      border-radius: 5px;
+    }
+
+    #locais-titulo {
+      margin-top: 40px;
+      font-size: 18px;
+      font-weight: bold;
+      color: #333;
+    }
+
+    .atualizar-btn {
+      background-color: #198754;
+      margin-top: 10px;
+    }
+
+    .atualizar-btn:hover {
+      background-color: #157347;
+    }
