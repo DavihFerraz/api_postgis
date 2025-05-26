@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import text
 from app.database.database import SessionLocal
@@ -66,3 +66,44 @@ async def listar_locais(db: AsyncSession = Depends(get_db)):
         dict(r._mapping) for r in rows
     ]
 
+
+@router.put("/locais/{id}", response_model=LocalOut)
+async def atualizar_local(id: int , local: LocalCreate, db:AsyncSession = Depends(get_db)):
+    query = text(
+        """
+        UPDATE locais
+        SET nome = :nome,
+            geom = ST_SetSRID(ST_MakePoint(:longitude, :latitude), 4326)
+        WHERE id = :id
+        RETURNING id, nome
+
+        """
+    )
+    result = await db.execute(query, {
+        "id": id,
+        "nome": local.nome,
+        "latitude": local.latitude,
+        "longitude": local.longitude
+    })
+
+    await db.commit()
+    row = result.fetchone()
+    if not row:
+        raise HTTPException(status_code=404, detail="Local not found")
+    return {"id": row.id, "nome": row.nome}
+
+@router.delete("/locais/{id}")
+async def deletar_local(id: int, db: AsyncSession = Depends(get_db)):
+    query = text(
+        """
+        DELETE FROM locais
+        WHERE id = :id
+        """
+    )
+    result = await db.execute(query, {"id": id})
+    await db.commit()
+    
+    if result.rowcount == 0:
+        raise HTTPException(status_code=404, detail="Local not found")
+    
+    return {"detail": "Local deleted successfully"}

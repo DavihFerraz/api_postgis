@@ -83,3 +83,40 @@
     .atualizar-btn:hover {
       background-color: #157347;
     }
+
+    .excluir-btn {
+      background-color: #bc1c2c;
+      margin-top: 10px;
+    }
+
+    .excluir-btn:hover {
+      background-color: #a61b1b;
+    }
+    .close-btn {
+      background-color: #bc1c2c;
+      margin-top: 10px;
+    }
+
+    .close-btn:hover {
+      background-color: #a61b1b;
+    }
+
+    .modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0,0,0,0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.modal-content {
+  background-color: white;
+  padding: 50px;
+  border-radius: 10px;
+  width: 300px;
+}

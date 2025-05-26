@@ -29,6 +29,25 @@
     </div>
   </div>
 
+  <!-- Modal para editar local -->
+<div id="editar-modal" style="display: none;" class="modal">
+  <div class="modal-content">
+    <h3>Editar Local</h3>
+    <label for="editar-nome">Nome:</label>
+    <input type="text" id="editar-nome" placeholder="Novo nome" />
+
+    <label for="editar-latitude">Latitude:</label>
+    <input type="number" id="editar-latitude" step="any" placeholder="Nova latitude" />
+
+    <label for="editar-longitude">Longitude:</label>
+    <input type="number" id="editar-longitude" step="any" placeholder="Nova longitude" />
+
+    <button onclick="salvarEdicao()">Salvar</button>
+    <button onclick="fecharModal()" class="close-btn">Cancelar</button>
+  </div>
+</div>
+
+
   <script src="script.js"></script>
 </body>
 </html>
