@@ -7,8 +7,6 @@ Este é um projeto simples de API REST com **FastAPI**, conectado a um banco de 
 ## 🚀 Funcionalidades
 
 - 📌 Cadastrar locais com nome, latitude e longitude
-- 🌐 Cálculo de distância usando geolocalização real (GPS / SRID 4326)
-
 ---
 
 ## ⚙️ Tecnologias
