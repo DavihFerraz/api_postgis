@@ -19,6 +19,9 @@
     <label for="longitude">Longitude:</label>
     <input type="number" id="longitude" step="any" required>
 
+    <label for="obs">Obs:</label>
+    <input type="text" id="obs" placeholder="Rio de Janeiro" required>
+
     <button onclick="cadastrarLocal()">Cadastrar</button>
     <p id="erro"></p>
 
@@ -41,6 +44,9 @@
 
     <label for="editar-longitude">Longitude:</label>
     <input type="number" id="editar-longitude" step="any" placeholder="Nova longitude" />
+
+    <label for="editar-obs">Obs:</label>
+    <input type="text" id="editar-obs" placeholder="Nova Descrição: " />
 
     <button onclick="salvarEdicao()">Salvar</button>
     <button onclick="fecharModal()" class="close-btn">Cancelar</button>

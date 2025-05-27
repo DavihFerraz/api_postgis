@@ -5,6 +5,7 @@ async function cadastrarLocal() {
   const nome = document.getElementById("nome").value;
   const latitude = parseFloat(document.getElementById("latitude").value);
   const longitude = parseFloat(document.getElementById("longitude").value);
+  const obs = document.getElementById("obs").value;
   const erro = document.getElementById("erro");
   erro.textContent = "";
 
@@ -14,7 +15,7 @@ async function cadastrarLocal() {
       headers: {
         "Content-Type": "application/json"
       },
-      body: JSON.stringify({ nome, latitude, longitude })
+      body: JSON.stringify({ nome, latitude, longitude, obs})
     });
 
     if (!resposta.ok) throw new Error("Erro ao cadastrar local");
@@ -22,6 +23,7 @@ async function cadastrarLocal() {
     document.getElementById("nome").value = "";
     document.getElementById("latitude").value = "";
     document.getElementById("longitude").value = "";
+    document.getElementById("obs").value = "";
     carregarLocais();
   } catch (e) {
     erro.textContent = "Erro de conexão com o backend.";
@@ -46,7 +48,7 @@ async function carregarLocais() {
       locais.forEach(local => {
         const item = document.createElement("li");
         item.innerHTML = `
-          ID: ${local.id} | Nome: ${local.nome}
+          ID: ${local.id} | Nome: ${local.nome} - ${local.obs}
           <button onclick="abrirModal(${local.id}, '${local.nome}')" >Editar</button>
           <button onclick="deletarLocal(${local.id})" class="excluir-btn">Excluir</button>
         `;

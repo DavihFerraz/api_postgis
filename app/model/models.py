@@ -8,3 +8,4 @@ class Local(Base):
     id = Column(Integer, primary_key=True, index=True)
     nome = Column(Text)
     geom = Column(Geometry(geometry_type="POINT", srid=4326),nullable=False)
+    obs = Column(Text)

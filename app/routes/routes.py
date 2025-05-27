@@ -16,20 +16,21 @@ async def get_db():
 async def create_local(local: LocalCreate, db: AsyncSession = Depends(get_db)):
     query = text(
         """
-        INSERT INTO locais (nome, geom)
-        VALUES (:nome, ST_SetSRID(ST_MakePoint(:longitude, :latitude), 4326))
-        RETURNING id, nome
+        INSERT INTO locais (nome, geom, obs)
+        VALUES (:nome, ST_SetSRID(ST_MakePoint(:longitude, :latitude), 4326),:obs)
+        RETURNING id, nome, obs
         """
     )
     result = await db.execute(query, {
         "nome": local.nome, 
         "latitude": local.latitude, 
-        "longitude": local.longitude
+        "longitude": local.longitude,
+        "obs": local.obs
         })
     
     await db.commit()
     row = result.fetchone()
-    return {"id": row.id, "nome": row.nome}
+    return {"id": row.id, "nome": row.nome, "obs": row.obs}
 
 @router.get("/locais/{nome}/distancias", response_model=list[LocalOut])
 async def distancias(nome: str, db: AsyncSession = Depends(get_db)):
@@ -56,7 +57,7 @@ async def distancias(nome: str, db: AsyncSession = Depends(get_db)):
 async def listar_locais(db: AsyncSession = Depends(get_db)):
     query = text(
         """
-        SELECT id, nome
+        SELECT id, nome, obs
         FROM locais
         """
     )
@@ -83,7 +84,7 @@ async def atualizar_local(id: int , local: LocalCreate, db:AsyncSession = Depend
         "id": id,
         "nome": local.nome,
         "latitude": local.latitude,
-        "longitude": local.longitude
+        "longitude": local.longitude,
     })
 
     await db.commit()
