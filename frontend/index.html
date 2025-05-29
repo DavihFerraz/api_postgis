@@ -5,6 +5,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Cadastro de Locais</title>
   <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
 </head>
 <body>
   <div class="container">
@@ -30,6 +33,10 @@
       <button class="atualizar-btn" onclick="carregarLocais()">Atualizar Lista</button>
       <ul id="lista-locais"></ul>
     </div>
+
+    <h3>Mapa com Locais</h3>
+    <div id="map" style="height: 400px; width: 100%; margin-bottom: 20px;"></div>
+
   </div>
 
   <!-- Modal para editar local -->

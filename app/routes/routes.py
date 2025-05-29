@@ -1,12 +1,17 @@
-from fastapi import APIRouter, Depends, HTTPException
+from fastapi import APIRouter, Depends, HTTPException, Path
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import text
 from app.database.database import SessionLocal
 from app.model.models import Local
 from app.schemas.schemas import LocalCreate, LocalOut
+from pydantic import BaseModel
 
 
 router = APIRouter()
+
+
+class LocalObsUpdate(BaseModel):
+    obs:str
 
 async def get_db():
     async with SessionLocal() as session:
@@ -57,7 +62,9 @@ async def distancias(nome: str, db: AsyncSession = Depends(get_db)):
 async def listar_locais(db: AsyncSession = Depends(get_db)):
     query = text(
         """
-        SELECT id, nome, obs
+        SELECT id, nome, obs,
+            ST_Y(geom) AS latitude,
+            ST_X(geom) AS longitude
         FROM locais
         """
     )
@@ -108,3 +115,24 @@ async def deletar_local(id: int, db: AsyncSession = Depends(get_db)):
         raise HTTPException(status_code=404, detail="Local not found")
     
     return {"detail": "Local deleted successfully"}
+
+
+
+@router.patch("/locais/{id}/obs", response_model=LocalOut)
+async def atualizar_obs(id: int, dados: LocalObsUpdate, db: AsyncSession = Depends(get_db)):
+    query = text(
+        """
+        UPDATE locais
+        SET obs = :obs
+        WHERE id = :id
+        RETURNING id, nome, obs
+    """
+    )
+    result = await db.execute(query, {"id": id, "obs": dados.obs})
+    await db.commit()
+
+    row = result.fetchone()
+    if not row:
+        raise HTTPException(status_code=404, detail="Local não encontrado")
+    
+    return dict(row._mapping)

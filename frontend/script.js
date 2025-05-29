@@ -49,10 +49,17 @@ async function carregarLocais() {
         const item = document.createElement("li");
         item.innerHTML = `
           ID: ${local.id} | Nome: ${local.nome} - ${local.obs}
-          <button onclick="abrirModal(${local.id}, '${local.nome}')" >Editar</button>
+          <button onclick="abrirModal(${local.id}, '${local.nome}', ${local.latitude}, ${local.longitude}, '${local.obs}')" >Editar</button>
+          <button onclick="editarObs('${local.id}')" >Editar Obs</button>
           <button onclick="deletarLocal(${local.id})" class="excluir-btn">Excluir</button>
         `;
         lista.appendChild(item);
+
+        const marcador = L.marker([local.latitude, local.longitude])
+          .addTo(mapa)
+          .bindPopup(`<strong>${local.nome}</strong><br>${local.obs}`);
+  
+        marcadores.push(marcador);
       });
     }
   } catch (e) {
@@ -61,9 +68,26 @@ async function carregarLocais() {
   }
 }
 
-function abrirModal(id, nome) {
+let mapa = L.map('map').setView([-25.4284, -49.2733], 13); // Curitiba como centro
+
+L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+  attribution: '&copy; OpenStreetMap contributors'
+}).addTo(mapa);
+
+let marcadores = [];
+
+function limparMarcadores() {
+  marcadores.forEach(m => mapa.removeLayer(m));
+  marcadores = [];
+}
+
+
+function abrirModal(id, nome, latitude = "", longitude = "", obs = "") {
   idEdicao = id;
   document.getElementById("editar-nome").value = nome;
+  document.getElementById("editar-latitude").value = latitude;
+  document.getElementById("editar-longitude").value = longitude;
+  document.getElementById("editar-obs").value = obs;
   document.getElementById("editar-modal").style.display = "flex";
 }
 
@@ -74,6 +98,7 @@ function fecharModal() {
 
 async function salvarEdicao() {
   const nome = document.getElementById("editar-nome").value;
+  const obs = document.getElementById("editar-obs").value;
   const latitude = parseFloat(document.getElementById("editar-latitude").value);
   const longitude = parseFloat(document.getElementById("editar-longitude").value);
 
@@ -81,7 +106,7 @@ async function salvarEdicao() {
     const resposta = await fetch(`${apiUrl}/${idEdicao}`, {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ nome, latitude, longitude })
+      body: JSON.stringify({ nome, latitude, longitude,obs })
     });
 
     if (!resposta.ok) throw new Error("Erro ao editar");
@@ -109,4 +134,29 @@ async function deletarLocal(id) {
   }
 }
 
+
+
+async function editarObs(id) {
+  const novaObs = prompt("Digite a nova observação:");
+  if (!novaObs) return;
+
+  try {
+    const resposta = await fetch(`${apiUrl}/${id}/obs`, {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ obs: novaObs })
+    });
+
+    if (!resposta.ok) throw new Error("Erro ao editar observação");
+
+    carregarLocais();
+  } catch (e) {
+    alert("Erro ao atualizar observação.");
+    console.error(e);
+  }
+}
+
+
 carregarLocais();
+
+

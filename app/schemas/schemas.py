@@ -9,6 +9,8 @@ class LocalCreate(BaseModel):
 class LocalOut(BaseModel):
     id: int
     nome: str
+    latitude: float
+    longitude: float
     distancia_km: float | None = None
     obs: str
 
