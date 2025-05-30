@@ -1,122 +1,244 @@
- body {
-      font-family: Arial, sans-serif;
-      background-color: #f7f7f7;
-      display: flex;
-      justify-content: center;
-      align-items: flex-start;
-      padding-top: 50px;
-    }
+/* Geral */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f4f6f9;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    color: #333;
+}
 
-    .container {
-      background-color: white;
-      padding: 30px;
-      border-radius: 10px;
-      width: 400px;
-      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    }
+header {
+    background-color: #343a40;
+    color: white;
+    text-align: center;
+    padding: 1em 0;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
 
-    h2 {
-      text-align: center;
-      color: #333;
-    }
+main {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    width: 100%;
+    max-width: 960px;
+    margin: 0 auto;
+}
 
-    label {
-      display: block;
-      margin-top: 15px;
-      font-weight: bold;
-    }
+footer {
+    background-color: #343a40;
+    color: white;
+    text-align: center;
+    padding: 1em;
+    box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.1);
+}
 
-    input {
-      width: 100%;
-      padding: 10px;
-      margin-top: 5px;
-      border-radius: 5px;
-      border: 1px solid #ccc;
-    }
+h1 {
+    margin-bottom: 0.5em;
+    font-size: 2em;
+}
 
-    button {
-      margin-top: 20px;
-      width: 100%;
-      padding: 10px;
-      background-color: #0d6efd;
-      color: white;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-    }
+h2 {
+    color: #444;
+    margin-bottom: 1em;
+    text-align: center;
+}
 
-    button:hover {
-      background-color: #0b5ed7;
-    }
+label {
+    display: block;
+    margin-bottom: 0.5em;
+    font-weight: bold;
+    color: #555;
+}
 
-    #erro {
-      color: red;
-      margin-top: 10px;
-      text-align: center;
-    }
+input[type="text"],
+input[type="number"] {
+    width: 100%;
+    padding: 0.75em;
+    margin-bottom: 1em;
+    border: 1px solid #ced4da;
+    border-radius: 0.25em;
+    box-sizing: border-box;
+}
 
-    ul {
-      margin-top: 30px;
-      padding: 0;
-      list-style: none;
-    }
+button {
+    background-color: #007bff;
+    color: white;
+    padding: 0.75em 1em;
+    border: none;
+    border-radius: 0.25em;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
 
-    li {
-      background-color: #f0f0f0;
-      margin-bottom: 10px;
-      padding: 10px;
-      border-radius: 5px;
-    }
+button:hover {
+    background-color: #0056b3;
+}
 
-    #locais-titulo {
-      margin-top: 40px;
-      font-size: 18px;
-      font-weight: bold;
-      color: #333;
-    }
+#erro {
+    color: #dc3545;
+    margin-top: 1em;
+    text-align: center;
+}
 
-    .atualizar-btn {
-      background-color: #198754;
-      margin-top: 10px;
-    }
+/* Seções */
+#cadastro-form,
+#locais-section,
+#mapa-section {
+    background-color: white;
+    margin-bottom: 2em;
+    padding: 1.5em;
+    border-radius: 0.5em;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    width: 100%;
+}
 
-    .atualizar-btn:hover {
-      background-color: #157347;
-    }
+#lista-locais-container {
+    overflow-x: auto;
+}
 
-    .excluir-btn {
-      background-color: #bc1c2c;
-      margin-top: 10px;
-    }
+/* Lista de Locais */
+#lista-locais {
+    list-style: none;
+    padding: 0;
+    margin-top: 1em;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    grid-gap: 1em;
+}
 
-    .excluir-btn:hover {
-      background-color: #a61b1b;
-    }
-    .close-btn {
-      background-color: #bc1c2c;
-      margin-top: 10px;
-    }
+#lista-locais li {
+    background-color: #fff;
+    border: 1px solid #e9ecef;
+    border-radius: 0.25em;
+    padding: 1em;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
 
-    .close-btn:hover {
-      background-color: #a61b1b;
-    }
+#lista-locais li strong {
+    display: block;
+    margin-bottom: 0.5em;
+    color: #212529;
+}
 
-    .modal {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0,0,0,0.4);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 1000;
+#lista-locais li p {
+    margin: 0.25em 0;
+    color: #495057;
+    font-size: 0.9em;
+}
+
+#lista-locais li .local-buttons {
+    margin-top: 0.75em;
+    text-align: right;
+}
+
+#lista-locais li .local-buttons button {
+    margin-left: 0.5em;
+    padding: 0.5em 0.75em;
+    font-size: 0.85em;
+}
+
+/* Botões */
+.atualizar-btn {
+    background-color: #28a745;
+}
+
+.atualizar-btn:hover {
+    background-color: #1e7e34;
+}
+
+.excluir-btn,
+.close-btn {
+    background-color: #dc3545;
+}
+
+.excluir-btn:hover,
+.close-btn:hover {
+    background-color: #c82333;
+}
+
+/* Mapa */
+#map {
+    height: 400px;
+    width: 100%;
+    border-radius: 0.5em;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+}
+
+/* Modal */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.4);
+    align-items: center;
+    justify-content: center;
 }
 
 .modal-content {
-  background-color: white;
-  padding: 50px;
-  border-radius: 10px;
-  width: 300px;
+    background-color: #fefefe;
+    margin: auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%;
+    max-width: 500px;
+    border-radius: 0.5em;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+}
+
+.modal-buttons {
+    text-align: right;
+    margin-top: 1em;
+}
+
+.close-btn {
+    margin-left: 0.5em;
+}
+
+/* Form Group */
+.form-group {
+    margin-bottom: 1em;
+}
+
+fieldset {
+    border: 1px solid #ced4da;
+    border-radius: 0.25em;
+    padding: 1em;
+    margin-bottom: 1em;
+}
+
+legend {
+    font-size: 1.1em;
+    font-weight: bold;
+    color: #343a40;
+    padding: 0 0.5em;
+}
+
+/* Responsividade */
+@media screen and (max-width: 600px) {
+    main {
+        padding: 10px;
+    }
+
+    #cadastro-form,
+    #locais-section,
+    #mapa-section {
+        padding: 1em;
+    }
+
+    #lista-locais {
+        grid-template-columns: 1fr;
+    }
+
+    .modal-content {
+        width: 90%;
+    }
 }

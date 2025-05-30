@@ -1,66 +1,106 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+Jardim Botânico<html lang="pt-br">
+
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Cadastro de Locais</title>
-  <link rel="stylesheet" href="style.css" />
-  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
-  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Cadastro de Locais</title>
+    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <link rel="icon" href="favicon.svg" type="image/svg+xml">
 </head>
+
 <body>
-  <div class="container">
-    <h2>Cadastro de Local com Ponto Geográfico</h2>
+    <header>
+        <h1>Cadastro de Locais Geográficos</h1>
+    </header>
 
-    <label for="nome">Nome:</label>
-    <input type="text" id="nome" placeholder="Ex: Cristo Redentor" required>
+    <main>
+        <section id="cadastro-form">
+            <h2>Cadastrar Novo Local</h2>
+            <form id="form-cadastro">
+                <fieldset>
+                    <legend>Informações do Local</legend>
+                    <div class="form-group">
+                        <label for="nome">Nome:</label>
+                        <input type="text" id="nome" placeholder="Ex: Cristo Redentor" required>
+                    </div>
 
-    <label for="latitude">Latitude:</label>
-    <input type="number" id="latitude" step="any" required>
+                    <div class="form-group">
+                        <label for="latitude">Latitude:</label>
+                        <input type="number" id="latitude" step="any" required>
+                    </div>
 
-    <label for="longitude">Longitude:</label>
-    <input type="number" id="longitude" step="any" required>
+                    <div class="form-group">
+                        <label for="longitude">Longitude:</label>
+                        <input type="number" id="longitude" step="any" required>
+                    </div>
 
-    <label for="obs">Obs:</label>
-    <input type="text" id="obs" placeholder="Rio de Janeiro" required>
+                    <div class="form-group">
+                        <label for="obs">Observação:</label>
+                        <input type="text" id="obs" placeholder="Rio de Janeiro" required>
+                    </div>
+                </fieldset>
 
-    <button onclick="cadastrarLocal()">Cadastrar</button>
-    <p id="erro"></p>
+                <button type="submit">Cadastrar</button>
+                <p id="erro"></p>
+            </form>
+        </section>
+    
+        <section id="mapa-section">
+        <h2>Mapa com Locais</h2>
+        <div id="map"></div>
+        </section>
+        <section id="locais-section">
+            <h2>Locais Cadastrados</h2>
 
-    <div id="locais-section">
-      <p id="locais-titulo">Locais cadastrados:</p>
-      <button class="atualizar-btn" onclick="carregarLocais()">Atualizar Lista</button>
-      <ul id="lista-locais"></ul>
-    </div>
+            <div id="lista-locais-container">
+                <ul id="lista-locais"></ul>
+            </div>
+              <div class="locais-actions">
+                <button class="atualizar-btn" onclick="carregarLocais()">Atualizar Lista</button>
+            </div>
+        </section>
 
-    <h3>Mapa com Locais</h3>
-    <div id="map" style="height: 400px; width: 100%; margin-bottom: 20px;"></div>
+        <div id="editar-modal" class="modal">
+            <div class="modal-content">
+                <h3>Editar Local</h3>
+                <form id="form-editar">
+                    <div class="form-group">
+                        <label for="editar-nome">Nome:</label>
+                        <input type="text" id="editar-nome" placeholder="Novo nome" />
+                    </div>
 
-  </div>
+                    <div class="form-group">
+                        <label for="editar-latitude">Latitude:</label>
+                        <input type="number" id="editar-latitude" step="any" placeholder="Nova latitude" />
+                    </div>
 
-  <!-- Modal para editar local -->
-<div id="editar-modal" style="display: none;" class="modal">
-  <div class="modal-content">
-    <h3>Editar Local</h3>
-    <label for="editar-nome">Nome:</label>
-    <input type="text" id="editar-nome" placeholder="Novo nome" />
+                    <div class="form-group">
+                        <label for="editar-longitude">Longitude:</label>
+                        <input type="number" id="editar-longitude" step="any" placeholder="Nova longitude" />
+                    </div>
 
-    <label for="editar-latitude">Latitude:</label>
-    <input type="number" id="editar-latitude" step="any" placeholder="Nova latitude" />
+                    <div class="form-group">
+                        <label for="editar-obs">Observação:</label>
+                        <input type="text" id="editar-obs" placeholder="Nova Descrição: " />
+                    </div>
 
-    <label for="editar-longitude">Longitude:</label>
-    <input type="number" id="editar-longitude" step="any" placeholder="Nova longitude" />
+                    <div class="modal-buttons">
+                        <button type="submit" onclick="salvarEdicao()">Salvar</button>
+                        <button type="button" class="close-btn" onclick="fecharModal()">Cancelar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </main>
 
-    <label for="editar-obs">Obs:</label>
-    <input type="text" id="editar-obs" placeholder="Nova Descrição: " />
+    <footer>
+        <p>&copy; 2025 API de Locais Geográficos</p>
+    </footer>
 
-    <button onclick="salvarEdicao()">Salvar</button>
-    <button onclick="fecharModal()" class="close-btn">Cancelar</button>
-  </div>
-</div>
-
-
-  <script src="script.js"></script>
+    <script src="script.js"></script>
 </body>
+
 </html>

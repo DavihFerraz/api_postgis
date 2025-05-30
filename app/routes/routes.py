@@ -53,6 +53,9 @@ async def distancias(nome: str, db: AsyncSession = Depends(get_db)):
 
     result = await db.execute(query, {"nome": nome})
     rows = result.fetchall()
+
+    if not rows:
+        raise HTTPException(status_code=404, detail="Nenhum local encontrado ou nome inválido.")
     return[
         dict(r._mapping) for r in rows
     ]

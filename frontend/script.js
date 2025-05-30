@@ -1,6 +1,13 @@
 const apiUrl = "http://localhost:8000/locais";
 let idEdicao = null;
 
+let mapa = L.map('map').setView([-25.4284, -49.2733], 13); // Curitiba como centro
+L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+}).addTo(mapa);
+
+let marcadores = [];
+
+
 async function cadastrarLocal() {
   const nome = document.getElementById("nome").value;
   const latitude = parseFloat(document.getElementById("latitude").value);
@@ -68,14 +75,6 @@ async function carregarLocais() {
   }
 }
 
-let mapa = L.map('map').setView([-25.4284, -49.2733], 13); // Curitiba como centro
-
-L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-  attribution: '&copy; OpenStreetMap contributors'
-}).addTo(mapa);
-
-let marcadores = [];
-
 function limparMarcadores() {
   marcadores.forEach(m => mapa.removeLayer(m));
   marcadores = [];
@@ -134,8 +133,6 @@ async function deletarLocal(id) {
   }
 }
 
-
-
 async function editarObs(id) {
   const novaObs = prompt("Digite a nova observação:");
   if (!novaObs) return;
@@ -156,7 +153,4 @@ async function editarObs(id) {
   }
 }
 
-
 carregarLocais();
-
-
