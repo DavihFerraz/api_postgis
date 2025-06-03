@@ -128,7 +128,12 @@ async def atualizar_obs(id: int, dados: LocalObsUpdate, db: AsyncSession = Depen
         UPDATE locais
         SET obs = :obs
         WHERE id = :id
-        RETURNING id, nome, obs
+        RETURNING 
+            id, 
+            nome, 
+            obs,
+            ST_Y(geom) AS latitude,
+            ST_X(geom) AS longitude
     """
     )
     result = await db.execute(query, {"id": id, "obs": dados.obs})
@@ -138,4 +143,10 @@ async def atualizar_obs(id: int, dados: LocalObsUpdate, db: AsyncSession = Depen
     if not row:
         raise HTTPException(status_code=404, detail="Local não encontrado")
     
-    return dict(row._mapping)
+    return {
+        "id": row.id,
+        "nome": row.nome,
+        "obs": row.obs,
+        "latitude": row.latitude,
+        "longitude": row.longitude,
+        }

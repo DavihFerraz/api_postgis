@@ -160,6 +160,13 @@ button:hover {
     background-color: #c82333;
 }
 
+.editar-obs-btn{
+    background-color: goldenrod
+}
+.editar-obs-btn:hover{
+    background-color: darkgoldenrod;
+}
+
 /* Mapa */
 #map {
     height: 400px;

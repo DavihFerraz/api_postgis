@@ -57,7 +57,7 @@ async function carregarLocais() {
         item.innerHTML = `
           ID: ${local.id} | Nome: ${local.nome} - ${local.obs}
           <button onclick="abrirModal(${local.id}, '${local.nome}', ${local.latitude}, ${local.longitude}, '${local.obs}')" >Editar</button>
-          <button onclick="editarObs('${local.id}')" >Editar Obs</button>
+          <button onclick="editarObs('${local.id}')" class="editar-obs-btn" >Editar Obs</button>
           <button onclick="deletarLocal(${local.id})" class="excluir-btn">Excluir</button>
         `;
         lista.appendChild(item);
