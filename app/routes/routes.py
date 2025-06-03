@@ -2,13 +2,12 @@ from fastapi import APIRouter, Depends, HTTPException, Path
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import text
 from app.database.database import SessionLocal
-from app.model.models import Local
+# Remova a importação não utilizada de Local se não for usada em outro lugar
+# from app.model.models import Local 
 from app.schemas.schemas import LocalCreate, LocalOut
 from pydantic import BaseModel
 
-
 router = APIRouter()
-
 
 class LocalObsUpdate(BaseModel):
     obs:str
@@ -22,20 +21,38 @@ async def create_local(local: LocalCreate, db: AsyncSession = Depends(get_db)):
     query = text(
         """
         INSERT INTO locais (nome, geom, obs)
-        VALUES (:nome, ST_SetSRID(ST_MakePoint(:longitude, :latitude), 4326),:obs)
-        RETURNING id, nome, obs
+        VALUES (:nome, ST_SetSRID(ST_MakePoint(:longitude, :latitude), 4326), :obs)
+        RETURNING 
+            id, 
+            nome, 
+            obs,
+            ST_Y(geom) AS latitude,  -- ADICIONADO: Retorna a latitude
+            ST_X(geom) AS longitude -- ADICIONADO: Retorna a longitude
         """
     )
-    result = await db.execute(query, {
-        "nome": local.nome, 
-        "latitude": local.latitude, 
-        "longitude": local.longitude,
-        "obs": local.obs
-        })
-    
-    await db.commit()
-    row = result.fetchone()
-    return {"id": row.id, "nome": row.nome, "obs": row.obs}
+    try:
+        result = await db.execute(query, {
+            "nome": local.nome, 
+            "latitude": local.latitude, 
+            "longitude": local.longitude,
+            "obs": local.obs
+            })
+        
+        await db.commit()
+        row = result.fetchone()
+        
+        if not row:
+             # Embora improvável após um INSERT bem-sucedido, é bom manter uma verificação
+             raise HTTPException(status_code=500, detail="Falha ao recuperar dados após inserção.")
+
+        # MODIFICADO: Retorna o mapeamento completo da linha, 
+        # que agora inclui latitude e longitude.
+        # O FastAPI/Pydantic fará a conversão para LocalOut.
+        return dict(row._mapping) 
+
+    except Exception as e:
+        await db.rollback() # Garante rollback em caso de erro antes ou durante o fetchone/return
+        raise HTTPException(status_code=500, detail=f"Erro interno do servidor ao criar local: {e}")
 
 @router.get("/locais/{nome}/distancias", response_model=list[LocalOut])
 async def distancias(nome: str, db: AsyncSession = Depends(get_db)):

@@ -45,6 +45,7 @@ async function carregarLocais() {
   erro.textContent = "";
 
   try {
+    limparMarcadores();
     const resposta = await fetch(apiUrl);
     if (!resposta.ok) throw new Error("Erro ao buscar locais");
     const locais = await resposta.json();
